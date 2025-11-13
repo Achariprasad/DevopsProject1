@@ -5,6 +5,7 @@ resource "aws_security_group" "my_security_group2" {
   name        = "my-security-group4"
   description = "Allow K8s ports"
 
+
   # SSH Inbound Rules
   ingress {
     from_port   = 22
@@ -147,3 +148,4 @@ output "NODE_SERVER_PUBLIC_IP" {
 output "NODE_SERVER_PRIVATE_IP" {
   value = aws_instance.my_ec2_instance2.private_ip
 }
+
