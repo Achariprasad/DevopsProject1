@@ -1,4 +1,5 @@
-FROM openjdk:8
+FROM openjdk:8-jdk-slim
 EXPOSE 8080
-ADD target/devops-integration.jar devops-integration.jar
-ENTRYPOINT ["java","-jar","/devops-integration.jar"]
+WORKDIR /app
+COPY target/DevopsProject1.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
