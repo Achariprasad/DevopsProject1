@@ -7,7 +7,7 @@ pipeline {
     // DECLARE THE VARIABLES HERE:
     environment {
     NODE_IP = '172.31.31.116'   // paste your Node-Server private IP here
-    EC2_NAME = "ubuntu-user"                  // enter your AWS EC2 username
+    EC2_NAME = "ubuntu"                  // enter your AWS EC2 username
     PIPELINE_NAME = "CI-PIPELINE"          // enter your pipeline name here 
     PROJECT_NAME = "DevopsProject1"        // enter your Devops project name here
     }
@@ -18,8 +18,8 @@ pipeline {
             steps {
               sshagent(['ubuntu_user']) {         // install 'ssh agent' plugin & generate 'ssh-agent' pipeline syntax generator 
                 sh "ssh -o StrictHostKeyChecking=no ${EC2_NAME}@${NODE_IP}"   // enter your Node Server's private IP here
-                sh "scp /var/lib/jenkins/workspace/${PIPELINE_NAME}/${PROJECT_NAME}/deployment.yaml ${EC2_NAME}@${NODE_IP}:/home/ubuntu-user/"
-                sh "scp /var/lib/jenkins/workspace/${PIPELINE_NAME}/${PROJECT_NAME}/service.yaml ${EC2_NAME}@${NODE_IP}:/home/ubuntu-user/"
+                sh "scp /var/lib/jenkins/workspace/${PIPELINE_NAME}/${PROJECT_NAME}/deployment.yaml ${EC2_NAME}@${NODE_IP}:/home/ubuntu/"
+                sh "scp /var/lib/jenkins/workspace/${PIPELINE_NAME}/${PROJECT_NAME}/service.yaml ${EC2_NAME}@${NODE_IP}:/home/ubuntu/"
               }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
             // i. Ensure to establish passwordless connection between Master & Node first
            // ii. Your deployment.yaml file must contain the Dockerhub image within the container block
             steps {
-              sshagent(['my_ec2_creds']) {          // store EC2 username & pem-key in Jenkins credentials
+              sshagent(['ubuntu_user']) {          // store EC2 username & pem-key in Jenkins credentials
                 sh "ssh -o StrictHostKeyChecking=no ${EC2_NAME}@${NODE_IP}"   // enter your Node-Server private IP here
                 sh "ssh -o StrictHostKeyChecking=no ${EC2_NAME}@${NODE_IP} kubectl apply -f deployment.yaml"
                 sh "ssh -o StrictHostKeyChecking=no ${EC2_NAME}@${NODE_IP} kubectl apply -f service.yaml"
@@ -48,4 +48,5 @@ pipeline {
         }
     }
 }
+
 
