@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8-jdk
+FROM amazoncorretto:8
 EXPOSE 8080
 WORKDIR /app
 ADD target/devops-integration.jar devops-integration.jar
